@@ -22,14 +22,15 @@ $SaveVerbosePreference = $VerbosePreference
 $VerbosePreference = 'continue'
 $VMTime = Get-Date
 $LogTime = $VMTime.ToUniversalTime()
-mkdir "$env:windir\Temp\NerdioManagerLogs\ScriptedActions\msoffice_sa" -Force
-Start-Transcript -Path "$env:windir\Temp\NerdioManagerLogs\ScriptedActions\msoffice_sa\ps_log.txt" -Append -IncludeInvocationHeader
+mkdir "$env:TEMP\NerdioManagerLogs\ScriptedActions" -Force
+Start-Transcript -Path "$env:TEMP\NerdioManagerLogs\ScriptedActions\Install-M365-Apps-GER.ps1" -Append -IncludeInvocationHeader
 
 Write-Host "################# New Script Run #################"
 Write-host "Current time (UTC-0): $LogTime"
 
 # Create directory to store ODT and setup files
-mkdir "$env:windir\Temp\odt_sa\raw" -Force
+$workingDirectory = "$env:TEMP\NerdioManagerLogs\ScriptedActions\Install-M365-Apps-GER"
+New-Item -ItemType Directory -Path $workingDirectory -Force
 
 # Parse through the MS Download Center page to get the most up-to-date download link
 $MSDlSite2 = Invoke-WebRequest "https://www.microsoft.com/en-us/download/confirmation.aspx?id=49117" -UseBasicParsing
@@ -41,10 +42,10 @@ ForEach ($Href in $MSDlSite2.Links.Href)
 }
 
 # Download office deployment tool using up-to-date link grabed eariler
-Invoke-WebRequest -Uri $DLink -OutFile "$env:windir\Temp\odt_sadata.exe" -UseBasicParsing
+Invoke-WebRequest -Uri $DLink -OutFile "$env:TEMP\NerdioManagerLogs\ScriptedActions\Install-M365-Apps-GER\odt_sadata.exe" -UseBasicParsing
 
 # unpack the ODT executable to get the setup.exe
-Start-Process -filepath "$env:windir\Temp\odt_sadata.exe" -ArgumentList "/extract:$env:windir\Temp\odt_sa\raw /quiet" -Wait
+Start-Process -filepath "$env:TEMP\NerdioManagerLogs\ScriptedActions\Install-M365-Apps-GER\odt_sadata.exe" -ArgumentList "/extract:$env:TEMP\NerdioManagerLogs\ScriptedActions\Install-M365-Apps-GER /quiet" -Wait
 
 # create a base config XML for ODT to use, this one has auto-update disabled
 $ODTConfig = @"
@@ -72,10 +73,10 @@ $ODTConfig = @"
   <Display Level="None" AcceptEULA="TRUE" />
 </Configuration>
 "@ 
-$ODTConfig | Out-File "$env:windir\Temp\odt_sa\raw\odtconfig.xml"
+$ODTConfig | Out-File "$env:TEMP\NerdioManagerLogs\ScriptedActions\Install-M365-Apps-GER\odtconfig.xml"
 
 # execute odt.exe using the newly created odtconfig.xml. This updates/installs office (takes a while)
-Start-Process -filepath "$env:windir\Temp\odt_sa\raw\setup.exe" -ArgumentList "/configure $env:windir\Temp\odt_sa\raw\odtconfig.xml" -Wait
+Start-Process -filepath "$env:TEMP\NerdioManagerLogs\ScriptedActions\Install-M365-Apps-GER\setup.exe" -ArgumentList "/configure $env:TEMP\NerdioManagerLogs\ScriptedActions\Install-M365-Apps-GER\odtconfig.xml" -Wait
 
 # End Logging
 Stop-Transcript
