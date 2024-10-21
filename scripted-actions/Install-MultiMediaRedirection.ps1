@@ -10,19 +10,13 @@
 ###########################################################
 
 [CmdletBinding()] Param (
-    [Parameter(
-        Mandatory
-    )]
+    [Parameter()]
     [string]$VCRedistributableLink='https://aka.ms/vs/17/release/vc_redist.x64.exe',
 
-    [Parameter(
-        Mandatory
-    )]
+    [Parameter()]
     [string]$EnableEdge='true',
 
-    [Parameter(
-        Mandatory
-    )]
+    [Parameter()]
     [string]$EnableChrome='false'
 )
 

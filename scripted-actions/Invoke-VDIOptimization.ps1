@@ -12,9 +12,7 @@
 # Inspired by and referenced: https://raw.githubusercontent.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/main/Windows_VDOT.ps1
 
 [CmdletBinding()] Param (
-     [Parameter(
-        Mandatory
-    )]
+    [Parameter()]
     [ValidateSet('All','WindowsMediaPlayer','ScheduledTasks','DefaultUserSettings','Autologgers','Services','NetworkOptimizations','LGPO','DiskCleanup','Edge','RemoveLegacyIE', 'RemoveOneDrive')] 
     [String[]]$Optimizations='All','WindowsMediaPlayer','ScheduledTasks','DefaultUserSettings','Autologgers','Services','NetworkOptimizations','LGPO','DiskCleanup','Edge','RemoveLegacyIE', 'RemoveOneDrive'
 )   
