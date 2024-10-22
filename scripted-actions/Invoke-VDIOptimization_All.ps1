@@ -14,7 +14,7 @@
 [CmdletBinding()] Param (
     [Parameter()]
     [ValidateSet('All','WindowsMediaPlayer','ScheduledTasks','DefaultUserSettings','Autologgers','Services','NetworkOptimizations','LGPO','DiskCleanup','Edge','RemoveLegacyIE', 'RemoveOneDrive')] 
-    [String[]]$Optimizations='All'
+    [String[]]$Optimizations=@('All')
 )   
 
 Begin {
