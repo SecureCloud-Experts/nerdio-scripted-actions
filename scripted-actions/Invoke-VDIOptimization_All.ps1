@@ -2,7 +2,7 @@
 # Source       : https://github.com/Azure/RDS-Templates/blob/master/CustomImageTemplateScripts/CustomImageTemplateScripts_2024-03-27/WindowsOptimization.ps1
 # Author       : Akash Chawla
 # Usage        : Windows optimizations for AVD
-# Notes        : Just added default value to parameter to use with Nerdio scripted actions.
+# Notes        : Just added default value to parameter to use with without manual parameters.
 #>
 
 #############################################
@@ -14,7 +14,7 @@
 [CmdletBinding()] Param (
     [Parameter()]
     [ValidateSet('All','WindowsMediaPlayer','ScheduledTasks','DefaultUserSettings','Autologgers','Services','NetworkOptimizations','LGPO','DiskCleanup','Edge','RemoveLegacyIE', 'RemoveOneDrive')] 
-    [String[]]$Optimizations='All','WindowsMediaPlayer','ScheduledTasks','DefaultUserSettings','Autologgers','Services','NetworkOptimizations','LGPO','DiskCleanup','Edge','RemoveLegacyIE', 'RemoveOneDrive'
+    [String[]]$Optimizations='All'
 )   
 
 Begin {
@@ -40,12 +40,6 @@ Begin {
         }
 }
 PROCESS {
-
-    if (-not ($PSBoundParameters.Keys -match 'Optimizations') )
-     {
-        Write-Host "AVD AIB Customization : Windows Optimizations - No Optimizations (Optimizations or AdvancedOptimizations) passed, exiting script!"
-        Return
-    }
 
     #region Disable, then remove, Windows Media Player including payload
     If ($Optimizations -contains "WindowsMediaPlayer" -or $Optimizations -contains "All") {
