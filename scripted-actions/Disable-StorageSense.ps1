@@ -25,14 +25,6 @@ IF(!(Test-Path $registryPathWin11)) {
     New-Item -Path $registryPathWin11 -Force
 }
 
-Set-RegKey -registryPath $registryPath -registryKey $registryKey -registryValue $registryValue
-Set-RegKey -registryPath $registryPathWin11 -registryKey $registryKey -registryValue $registryValue
-
-$stopwatch.Stop()
-$elapsedTime = $stopwatch.Elapsed
-Write-Host "*** AVD AIB CUSTOMIZER PHASE: Disable Storage Sense - Exit Code: $LASTEXITCODE ***"
-Write-Host "*** Ending AVD AIB CUSTOMIZER PHASE: Disable Storage Sense - Time taken: $elapsedTime "
-
 function Set-RegKey($registryPath, $registryKey, $registryValue) {
     try {
          Write-Host "*** AVD AIB CUSTOMIZER PHASE ***  Disable Storage Sense - Setting  $registryKey with value $registryValue ***"
@@ -42,6 +34,14 @@ function Set-RegKey($registryPath, $registryKey, $registryValue) {
          Write-Host "*** AVD AIB CUSTOMIZER PHASE ***   Disable Storage Sense  - Cannot add the registry key  $registryKey *** : [$($_.Exception.Message)]"
     }
  }
+
+Set-RegKey -registryPath $registryPath -registryKey $registryKey -registryValue $registryValue
+Set-RegKey -registryPath $registryPathWin11 -registryKey $registryKey -registryValue $registryValue
+
+$stopwatch.Stop()
+$elapsedTime = $stopwatch.Elapsed
+Write-Host "*** AVD AIB CUSTOMIZER PHASE: Disable Storage Sense - Exit Code: $LASTEXITCODE ***"
+Write-Host "*** Ending AVD AIB CUSTOMIZER PHASE: Disable Storage Sense - Time taken: $elapsedTime "
 
 #############
 #    END    #
